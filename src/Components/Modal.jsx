@@ -54,22 +54,12 @@ const ModalFn = () => {
                 onOk={handleOk}
                 onCancel={handleCancel}
                 footer={[
-                    <Button key="cancel" onClick={() => setIsModalOpen(false)}>
-                        Cancel
-                    </Button>,
-                    <Button
-                        key="continue"
-                        type="primary"
-                        className="bg-blue-500"
-                        onClick={() => setIsModalOpen(false)}
-                    >
-                        Continue
-                    </Button>
+
                 ]}
             >
                 <div className="space-y-4">
 
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 items-center">
                         <Input
                             placeholder="Search Students"
                             prefix={<SearchOutlined />}
@@ -79,7 +69,7 @@ const ModalFn = () => {
                         />
                         <Select
                             placeholder="Select Classroom"
-                            className="w-48"
+                            className="w-48 outline-none"
                             options={[
                                 { value: 'class1', label: 'Class 1' },
                                 { value: 'class2', label: 'Class 2' },
@@ -93,15 +83,17 @@ const ModalFn = () => {
                                 { value: 'tag2', label: 'Tag 2' },
                             ]}
                         />
-                        <Button type="primary" className="bg-blue-500">
+                        <p className=" border px-4 rounded-sm bg-gray-200 text-center text-blue-500">
                             Active
-                        </Button>
+                        </p>
                     </div>
 
                     <Checkbox
                         checked={selectedStudents.length === students.length}
                         indeterminate={selectedStudents.length > 0 && selectedStudents.length < students.length}
                         onChange={e => handleSelectAll(e.target.checked)}
+
+
                     >
                         Select All
                     </Checkbox>
@@ -125,9 +117,25 @@ const ModalFn = () => {
                                 </div>
                             </Card>
                         ))}
+
                     </div>
                 </div>
+                <div className='flex gap-2 mt-5 justify-center'>
+                    <Button className='w-[15rem]  py-6' key="cancel" onClick={() => setIsModalOpen(false)}>
+                        Cancel
+                    </Button>,
+                    <Button
 
+                        key="continue"
+                        type="primary"
+                        className="w-[15rem] py-6 bg-blue-500"
+                        onClick={() => setIsModalOpen(false)}
+                    >
+                        Continue
+                    </Button>
+
+
+                </div>
             </Modal>
         </div>
     )
