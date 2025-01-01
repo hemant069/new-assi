@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Input, Select, Checkbox, Button, Card, Avatar } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import { students } from "../../utils/data"
@@ -7,6 +7,10 @@ const ModalFn = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedStudents, setSelectedStudents] = useState([])
     const [searchText, setSearchText] = useState('')
+    const [classSort, setClassSort] = useState('')
+    const [StudentsData, setStudentsData] = useState(students)
+
+
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -37,9 +41,21 @@ const ModalFn = () => {
         }
     }
 
-    const filteredStudents = students.filter(student =>
-        student.name.toLowerCase().includes(searchText.toLowerCase())
-    )
+    const handleSearch = (e) => {
+        setSearchText(e.target.value)
+        if (e.target.value == "") {
+            setStudentsData(students)
+        }
+    }
+
+    useEffect(() => {
+        const filterData = StudentsData.filter(student =>
+            student.name.toLowerCase().includes(searchText.toLowerCase())
+        )
+
+        setStudentsData(filterData)
+    }, [searchText])
+
     return (
         <div>
             <Button onClick={showModal}>Click Me !</Button>
@@ -64,7 +80,7 @@ const ModalFn = () => {
                             placeholder="Search Students"
                             prefix={<SearchOutlined />}
                             value={searchText}
-                            onChange={e => setSearchText(e.target.value)}
+                            onChange={handleSearch}
                             className="flex-1"
                         />
                         <Select
@@ -74,6 +90,7 @@ const ModalFn = () => {
                                 { value: 'class1', label: 'Class 1' },
                                 { value: 'class2', label: 'Class 2' },
                             ]}
+                            onChange={(value) => setClassSort(value)}
                         />
                         <Select
                             placeholder="Select Tag"
@@ -99,7 +116,7 @@ const ModalFn = () => {
                     </Checkbox>
 
                     <div className="grid grid-cols-3 gap-4">
-                        {filteredStudents.map(student => (
+                        {StudentsData.map(student => (
                             <Card
                                 key={student.id}
                                 className={`cursor-pointer transition-colors ${selectedStudents.includes(student.id) ? 'bg-blue-50' : ''
