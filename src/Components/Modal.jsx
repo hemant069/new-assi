@@ -8,6 +8,7 @@ const ModalFn = () => {
     const [selectedStudents, setSelectedStudents] = useState([])
     const [searchText, setSearchText] = useState('')
     const [classSort, setClassSort] = useState('')
+    const [TagSort, setTagSort] = useState('')
     const [StudentsData, setStudentsData] = useState(students)
 
 
@@ -48,6 +49,8 @@ const ModalFn = () => {
         }
     }
 
+
+
     useEffect(() => {
         const filterData = StudentsData.filter(student =>
             student.name.toLowerCase().includes(searchText.toLowerCase())
@@ -55,6 +58,20 @@ const ModalFn = () => {
 
         setStudentsData(filterData)
     }, [searchText])
+
+    useEffect(() => {
+
+        const handleClassData = students.filter((el) => el.class_room.includes(classSort))
+
+        setStudentsData(handleClassData)
+    }, [classSort])
+
+    useEffect(() => {
+        console.log(TagSort)
+        const handleTagData = students.filter((el) => el.tag.includes(TagSort))
+
+        setStudentsData(handleTagData)
+    }, [TagSort])
 
     return (
         <div>
@@ -90,7 +107,7 @@ const ModalFn = () => {
                                 { value: 'class1', label: 'Class 1' },
                                 { value: 'class2', label: 'Class 2' },
                             ]}
-                            onChange={(value) => setClassSort(value)}
+                            onChange={value => setClassSort(value)}
                         />
                         <Select
                             placeholder="Select Tag"
@@ -99,6 +116,8 @@ const ModalFn = () => {
                                 { value: 'tag1', label: 'Tag 1' },
                                 { value: 'tag2', label: 'Tag 2' },
                             ]}
+                            onChange={value => setTagSort(value)}
+
                         />
                         <p className=" border px-4 rounded-sm bg-gray-200 text-center text-blue-500">
                             Active
